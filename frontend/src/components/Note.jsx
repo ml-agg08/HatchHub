@@ -4,12 +4,12 @@ import Reply from "./Reply";
 import ReplyForm from "./ReplyForm";
 import { useState } from "react";
 
-function Note({note,refreshNote,status}){
+function Note({note,refreshNote,skill,status}){
 
     const [replies,setReplies]=useState([]);
 
     const deleteNote=(id)=>{
-        api.delete(`api/notes/delete/${id}/`).then(()=>{refreshNote()}).catch((err)=>{alert(err)});
+        api.delete(`api/notes/delete/${id}/`).then(()=>{refreshNote(skill)}).catch((err)=>{alert(err)});
     }
 
     const getReplies=(id)=>{

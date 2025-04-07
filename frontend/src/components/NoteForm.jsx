@@ -1,7 +1,7 @@
 import { useState } from "react";
 import api from "../api";
 
-function NoteForm({refreshNote}) {
+function NoteForm({refreshNote,skill}) {
 
     const [title,setTitle]=useState("");
     const [content,setContent]=useState("");
@@ -9,7 +9,7 @@ function NoteForm({refreshNote}) {
 
     const createNote=(e)=>{
         e.preventDefault()
-        api.post("/api/notes/",{'title':title,'content':content,'tag':tag}).then(()=>{refreshNote()}).catch((err)=>{alert(err)});
+        api.post("/api/notes/",{'title':title,'content':content,'tag':tag}).then(()=>{refreshNote(skill)}).catch((err)=>{alert(err)});
     }
 
   return (

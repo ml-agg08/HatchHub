@@ -44,7 +44,7 @@ function JoinRequests({ note,status }) {
           ))}
         </div>
       ) : (
-        <form onSubmit={() => ApplyJoin(note.id)}>
+        <form onSubmit={(e) => {e.preventDefault();ApplyJoin(note.id);}}>
           <label htmlFor="text">Do you want to add anything?</label>
           <input
             type="text"

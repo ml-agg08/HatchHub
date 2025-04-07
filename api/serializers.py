@@ -10,6 +10,9 @@ class UserSerializer(serializers.ModelSerializer):
         user=User.objects.create_user(**validated_data)
         return user
     
+class SkillSerializer(serializers.Serializer):
+    tag=serializers.CharField()
+
 class NoteSerializer(serializers.ModelSerializer):
     class Meta:
         model=Note
@@ -45,3 +48,6 @@ class ViewProjectRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model=JoinProject
         fields=['id','note','text','approval_text','status']
+
+class ListUserSkillSerializer(serializers.Serializer):
+    skill=serializers.CharField()

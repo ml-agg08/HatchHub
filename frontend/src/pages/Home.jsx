@@ -2,49 +2,76 @@ import { useState,useEffect } from "react"
 import api from "../api";
 import NoteList from "../components/NoteList";
 import NoteForm from "../components/NoteForm";
-import Test from "../components/test";
+import PublicSkillView from "../components/PublicSkillView";
+import PublicUserSkill from "../components/PublicUserSkill";
 
 function Home(){ 
-    const [toggle,setToggle]=useState("public");
     const [notes,setNotes]=useState([]);
+    const [skills,setSkills]=useState([]);
+    const [selectedskill,setSelectedskill]=useState('');
+    const [publicmode,setPublicmode]=useState('publicall')
 
     useEffect(()=>{
         getPublicNotes();
     },[]);
 
+    useEffect(() => {
+        if (publicmode === 'publicall') {
+            getPublicNotes();
+        }
+    }, [publicmode]); 
+    
 
-    const getNotes=()=>{
-        api.get('/api/notes/').then((res)=>{console.log(res.data);return res.data}).then((data)=>{setNotes(data)}).catch((err)=>alert(err));
-    };
-
-    const getPublicNotes=()=>{
+    const getPublicNotes=(skill)=>{
         api.get('/api/notes/public').then((res)=>{console.log(res.data);return res.data}).then((data)=>{setNotes(data)}).catch((err)=>alert(err));
     };
 
-    let show=true;
+    const getNotesBySkill = (selectedskill) => {
+        {
+          console.log(selectedskill);
+        }
+        api
+          .get(`/api/notes/public/${selectedskill}`)
+          .then((res) => res.data)
+          .then((data) => setNotes(data))
+          .catch((err) => {
+            alert(err);
+          });
+      };
+       
+      let refreshNote;
+      if (publicmode === 'publicskill' || publicmode === 'publicuserskill') {
+        refreshNote = getNotesBySkill;
+      } else {
+        refreshNote = getPublicNotes;
+      }      
 
-    return <>
+    return <>  
+
     <h1>Home</h1>
 
-    {show?<Test/>:<h1>hi</h1>}
+    <button onClick={()=>setPublicmode('publicall')}>Public All</button>   
+    <button onClick={()=>setPublicmode('publicskill')}>Skill Based</button>
+    <button onClick={()=>setPublicmode('publicuserskill')}>User relevant</button>
 
-    <NoteList notes={notes} refreshNote={toggle==='public'?getPublicNotes:getNotes} status={toggle}/>
+    {publicmode=='publicskill'?(
+        <PublicSkillView notes={notes} setNotes={setNotes} skills={skills} setSkills={setSkills} selectedskill={selectedskill} setSelectedskill={setSelectedskill} getNotesBySkill={getNotesBySkill}/>  
+    ):(
+        publicmode=='publicuserskill'?(
+            <PublicUserSkill notes={notes} setNotes={setNotes} selectedskill={selectedskill} setSelectedskill={setSelectedskill} getNotesBySkill={getNotesBySkill}/> 
+        ):(
+            null
+        )
+    )
+    }
 
-    <NoteForm refreshNote={toggle==='public'?getPublicNotes:getNotes}/>
+    <h3>PUBLIC VIEW MODE YOU'RE CURRENTLY WATCHING: {publicmode}</h3>
 
-    <button onClick={()=>{
-        if(toggle=='public'){
-            setToggle('private');
-            getNotes();
-        }
-        else{
-            setToggle('public');
-            getPublicNotes();
-        }
-    }}>{'change view'}</button>
-    <h6>{`Currently showing ${toggle} view`}</h6>
-    
-    <h5>{toggle==='public'? "Here you can read other maker's project ideas, reply to them, give opinons, and also if you're intrested you may request a 'join the project'" : "Here you can see your ideas posted and people's response to that"}</h5>
+    <NoteList notes={notes} refreshNote={refreshNote} skill={selectedskill} status={'public'}/>
+
+    <NoteForm refreshNote={refreshNote} skill={selectedskill}/>
+   
+    <h5>Here you can read other maker's project ideas, reply to them, give opinons, and also if you're intrested you may request a 'join the project'</h5>
 
     </>
 }

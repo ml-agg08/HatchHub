@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated,AllowAny
-from . serializers import UserSerializer,JoinProjectSerializer,NoteSerializer,ReplySerializer,ProfileSerializer,HasProfileSerializer,ApproveProjectSerializer,ViewProjectRequestSerializer
+from . serializers import UserSerializer,JoinProjectSerializer,NoteSerializer,ReplySerializer,ProfileSerializer,HasProfileSerializer,ApproveProjectSerializer,ViewProjectRequestSerializer,SkillSerializer,ListUserSkillSerializer
 from . models import Note,Reply,Profile,JoinProject
 # Create your views here.
 
@@ -76,13 +76,35 @@ class CreateListProfile(generics.ListCreateAPIView):
         return Profile.objects.filter(owner=self.request.user)
     
 
-class ListNotes(generics.ListAPIView):
+class ListNotesUserSkill(generics.ListAPIView):
     serializer_class=NoteSerializer
     permission_classes=[IsAuthenticated]
 
     def get_queryset(self):
         return Note.objects.filter(tag=self.request.user.profile.skill).exclude(author=self.request.user)
+    
+class ListNotes(generics.ListAPIView):
+    serializer_class=NoteSerializer
+    permission_classes=[IsAuthenticated]
+
+    def get_queryset(self):
+        return Note.objects.all().exclude(author=self.request.user)
+    
+class ListNotesBySkill(generics.ListAPIView):
+    serializer_class=NoteSerializer
+    permission_classes=[IsAuthenticated]
+
+    def get_queryset(self):
+        skill=self.kwargs['skill']
+        return Note.objects.filter(tag=skill).exclude(author=self.request.user)
         
+class ListSkills(generics.ListAPIView):
+    serializer_class=SkillSerializer
+    permission_classes=[IsAuthenticated]
+
+    def get_queryset(self):
+        return Note.objects.values('tag').distinct()
+
 class JoinProjectListCreate(generics.ListCreateAPIView):
     serializer_class=JoinProjectSerializer
     permission_classes=[IsAuthenticated]
@@ -134,3 +156,12 @@ class ViewProjectRequestList(generics.ListAPIView):
 
     def get_queryset(self):
         return JoinProject.objects.filter(owner=self.request.user)
+    
+class ListUserSkill(generics.ListAPIView):
+    serializer_class=ListUserSkillSerializer
+    permission_classes=[IsAuthenticated]
+
+    def get_queryset(self):
+        profile=Profile.objects.get(owner=self.request.user)
+        return [{'skill':profile.skill}]
+

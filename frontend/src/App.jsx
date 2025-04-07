@@ -8,6 +8,8 @@ import Profile from "./pages/Profile"
 import HasProfile from "./components/HasProfile"
 import { BrowserRouter,Routes,Navigate,Route } from "react-router-dom"
 import MyJoinRequests from "./pages/MyJoinRequests"
+import PublicNotes from "./pages/PrivateNotes"
+import PrivateNotes from "./pages/PrivateNotes"
 
 
 function Logout(){
@@ -47,6 +49,15 @@ function App() {
           element={
             <ProtectedRoute>
                 <MyJoinRequests/>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/private-view"
+          element={
+            <ProtectedRoute>
+              <PrivateNotes/>
             </ProtectedRoute>
           }
         />
