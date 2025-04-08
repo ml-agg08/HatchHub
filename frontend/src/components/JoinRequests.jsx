@@ -1,11 +1,14 @@
 import { useState } from "react";
 import api from "../api";
 import ApprovalForm from "./ApprovalForm";
+import { useNavigate } from "react-router-dom";
 
 function JoinRequests({ note,status }) {
   const [text, setText] = useState("");
 
   const [joinrequests, setJoinrequests] = useState([]);
+
+  const navigate=useNavigate();
 
   const ApplyJoin = (id) => {
     api.post(`api/notes/${id}/joinproject/`, { text: text }).catch((err) => {
@@ -38,8 +41,10 @@ function JoinRequests({ note,status }) {
           </button>
           {joinrequests.map((joinrequest) => (
             <div key={joinrequest.id}>
+              <button onClick={()=>{navigate(`/profileother/${joinrequest.owner}`)}}>see profile</button>
+              <h6>This project join request is {joinrequest.status}</h6>
               <h6>{joinrequest.text}</h6>
-              <ApprovalForm approval_id={joinrequest.id}/>
+              {joinrequest.status==='Pending'?<ApprovalForm approval_id={joinrequest.id}/>:null}
             </div>
           ))}
         </div>

@@ -11,9 +11,10 @@ urlpatterns = [
     path('notes/<int:note_id>/joinproject/',views.JoinProjectListCreate.as_view(),name="joinproject"),
     path('hasprofile/',views.HasProfileList.as_view(),name='hasprofile'),
     path('notes/<int:pk>/approvalproject/',views.ApprovalProjectUpdate.as_view(),name='approval-project'),
-    path('viewrequests/',views.ViewProjectRequestList.as_view(),name='viewrequests'),
+    path('viewrequests/<str:status>',views.ViewProjectRequestList.as_view(),name='viewrequests'),
     path('singlenoteview/<int:id>/',views.SingleNoteListView.as_view(),name="singlenoteview"),
     path('notes/public/<str:skill>',views.ListNotesBySkill.as_view(),name='listnotesbyskill'),
     path('getskills/',views.ListSkills.as_view(),name='listskills'),
     path('getuserskill/',views.ListUserSkill.as_view(),name='getuserskill'),
+    path('getspecific/<int:user_id>',views.ListSpecificProfile.as_view(),name='getspecificprofile')
 ]

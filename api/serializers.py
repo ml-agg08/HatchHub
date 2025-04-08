@@ -16,13 +16,14 @@ class SkillSerializer(serializers.Serializer):
 class NoteSerializer(serializers.ModelSerializer):
     class Meta:
         model=Note
-        fields=['title','content','id','tag']
-        extra_kwags={'author':{'read_only':True}}
+        fields=['author','title','content','id','tag']
+        extra_kwargs={'author':{'read_only':True}}
 
 class ReplySerializer(serializers.ModelSerializer):
     class Meta:
         model=Reply
-        fields=['content','id']
+        fields=['content','id','author']
+        extra_kwargs={'author':{'read_only':True}}
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,7 +33,8 @@ class ProfileSerializer(serializers.ModelSerializer):
 class JoinProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model=JoinProject
-        fields=['text','id']
+        fields=['owner','text','id','status']
+        extra_kwargs={'owner':{'read_only':True},'status':{'read_only':True}}
 
 class HasProfileSerializer(serializers.ModelSerializer):
     class Meta:

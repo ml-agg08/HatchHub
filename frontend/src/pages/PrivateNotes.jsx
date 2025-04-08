@@ -7,19 +7,21 @@ function PrivateNotes(){
 
     const [notes,setNotes]=useState([]);
 
-    const getNotes=()=>{
+    const skill=''
+
+    const getNotes=(skill)=>{
         api.get('/api/notes/').then((res)=>{console.log(res.data);return res.data}).then((data)=>{setNotes(data)}).catch((err)=>alert(err));
     };
 
     useEffect(()=>{
-        getNotes();
+        getNotes(skill);
     },[]);
 
     return <div>
 
         <h1>YOUR OWN NOTES:</h1>
 
-        <NoteList notes={notes} refreshNote={getNotes} status={'private'}/>
+        <NoteList notes={notes} refreshNote={getNotes} skill={skill} status={'private'}/>
 
         <NoteForm refreshNote={getNotes}/>
 

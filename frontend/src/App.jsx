@@ -10,6 +10,7 @@ import { BrowserRouter,Routes,Navigate,Route } from "react-router-dom"
 import MyJoinRequests from "./pages/MyJoinRequests"
 import PublicNotes from "./pages/PrivateNotes"
 import PrivateNotes from "./pages/PrivateNotes"
+import OtherProfileView from "./pages/OtherProfileView"
 
 
 function Logout(){
@@ -58,6 +59,15 @@ function App() {
           element={
             <ProtectedRoute>
               <PrivateNotes/>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/profileother/:id"
+          element={
+            <ProtectedRoute>
+              <OtherProfileView/>
             </ProtectedRoute>
           }
         />

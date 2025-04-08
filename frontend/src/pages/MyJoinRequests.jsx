@@ -1,15 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../api";
 import ViewSingleNote from "../components/ViewSingleNote";
 
 function MyJoinRequests() {
   const [myjoinrequests, setMyjoinrequests] = useState([]);
+  const [status, setStatus]=useState('Pending');
+
+  useEffect(()=>{
+    viewRequests();
+  },[]);
+
+  useEffect(()=>{
+    viewRequests();
+  },[status])
 
   const viewRequests = () => {
     api
-      .get("api/viewrequests/")
+      .get(`api/viewrequests/${status}`)
       .then((res) => res.data)
-      .then((data) => setMyjoinrequests(data))
+      .then((data) => {console.log(data);setMyjoinrequests(data);})
       .catch((err) => {
         alert(err);
       });
@@ -17,7 +26,13 @@ function MyJoinRequests() {
 
   return (
     <div>
-      <button onClick={viewRequests}>see my project request</button>
+
+      <select onChange={(e)=>(setStatus(e.target.value))}>
+        <option value="Pending">Pending</option>
+        <option value="approved">Approved</option>
+        <option value="rejected">Rejected</option>
+      </select>
+
       {myjoinrequests.map((req) => (
         <div key={req.id}>
           <h6>Project request message sent by you:{req.text}</h6>

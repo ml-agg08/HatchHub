@@ -19,15 +19,22 @@ function ApprovalForm({ approval_id }) {
 
   return (
     <div>
+
       <form onSubmit={(e)=>{
         e.preventDefault();
       }}>
         <label htmlFor="approval_text">Want to say anything</label>
         <input type="text" id='approval_text' name="approval_text" onChange={handleChange} />
-        <label htmlFor="status">Do you approve this?</label>
-        <input type="text" id='status' name="status" onChange={handleChange}/>
+
+        <select name="status" id="" onChange={handleChange}>
+          <option value="approved">Approve</option>
+          <option value="rejected">Reject</option>
+        </select>
+
         <button onClick={()=>{updateApproval(approval_id)}}>Give approval</button>
       </form>
+
+
     </div>
   );
 }

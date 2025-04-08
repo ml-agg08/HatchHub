@@ -3,8 +3,12 @@ import JoinRequests from "./JoinRequests";
 import Reply from "./Reply";
 import ReplyForm from "./ReplyForm";
 import { useState } from "react";
+import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Note({note,refreshNote,skill,status}){
+
+    const navigate=useNavigate();
 
     const [replies,setReplies]=useState([]);
 
@@ -17,11 +21,17 @@ function Note({note,refreshNote,skill,status}){
     }
 
     return <>
+
+        <h6>id of the user who made this post= {note.author}</h6>
+
         <h1>{note.title}</h1>
         <h4>{note.content}</h4>
         <h6>{note.id}</h6>
         <h6>{note.tag}</h6>
-        <button onClick={()=>{deleteNote(note.id)}}>delete!</button>
+
+        {status=='public'?<button onClick={()=>{navigate(`/profileother/${note.author}`)}}>see their profile!!</button>:null}
+
+        {status=='public'?null:<button onClick={()=>{deleteNote(note.id)}}>delete!</button>}
         <br />
         <br />
 

@@ -76,6 +76,15 @@ class CreateListProfile(generics.ListCreateAPIView):
         return Profile.objects.filter(owner=self.request.user)
     
 
+class ListSpecificProfile(generics.ListAPIView):
+    serializer_class=ProfileSerializer
+    permission_classes=[IsAuthenticated]   
+
+    def get_queryset(self):
+        user_id=self.kwargs['user_id']
+        user=User.objects.get(pk=user_id)
+        return Profile.objects.filter(owner=user)
+
 class ListNotesUserSkill(generics.ListAPIView):
     serializer_class=NoteSerializer
     permission_classes=[IsAuthenticated]
@@ -155,7 +164,9 @@ class ViewProjectRequestList(generics.ListAPIView):
 
 
     def get_queryset(self):
-        return JoinProject.objects.filter(owner=self.request.user)
+        status=self.kwargs['status']
+        print(status)
+        return JoinProject.objects.filter(owner=self.request.user,status=status)
     
 class ListUserSkill(generics.ListAPIView):
     serializer_class=ListUserSkillSerializer
