@@ -1,45 +1,66 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import api from "../api";
-import { useEffect } from "react";
 
-function ProfileView(){
+function ProfileView() {
+  const [profile, setProfile] = useState(null);
+  const [profileToggle, setProfileToggle] = useState(false);
 
-    const [prf,setPrf]=useState([])
+  useEffect(() => {
+    api
+      .get("api/profile")
+      .then((res) => setProfile(res.data[0]))
+      .catch((err) => alert("Error fetching profile: " + err));
+  }, []);
 
-    const getProfile=()=>{
-      api.get('api/profile').then((res)=>(res.data)).then((data)=>(setPrf(data))).then(console.log(prf)).catch((err)=>{alert(err)});
-    }  
+  const toggleProfile = () => {
+    setProfileToggle(!profileToggle);
+  };
 
-    const [profiletoggle,setProfiletoggle]=useState(false)
+  return (
+    <div className="max-w-3xl mx-auto px-6 py-10">
+      <button
+        onClick={toggleProfile}
+        className="mb-6 px-6 py-2 bg-rose-400 text-white rounded-md hover:bg-rose-500 transition"
+      >
+        {profileToggle ? "Hide profile" : "View your profile!"}
+      </button>
 
-    function profileToggleHandler(){
-        if(profiletoggle===false){
-            setProfiletoggle(true);
-        }
-        else{
-            setProfiletoggle(false);
-        }
-    }
+      {profileToggle && profile && (
+        <div className="bg-rose-50 border border-rose-200 rounded-lg p-6 shadow-sm space-y-6">
+          {/* Avatar & Name */}
+          <div className="flex items-center space-x-4">
+            <div className="bg-rose-400 text-white w-14 h-14 flex items-center justify-center text-xl font-bold rounded-full">
+              {profile.firstname?.charAt(0)}
+            </div>
+            <div>
+              <h2 className="text-xl font-semibold text-rose-700">
+                {profile.firstname} {profile.lastname}
+              </h2>
+              <p className="text-rose-500 text-sm">{profile.college}</p>
+            </div>
+          </div>
 
-    useEffect(()=>{getProfile()},[]);
+          {/* Bio */}
+          <div>
+            <h4 className="text-sm font-medium text-rose-600">Bio</h4>
+            <p className="text-gray-700">{profile.bio}</p>
+          </div>
 
+          {/* Skills */}
+          <div>
+            <h4 className="text-sm font-medium text-rose-600">Skills</h4>
+            <p className="text-gray-700">{profile.skill}</p>
+          </div>
 
-    return <>
-
-    {profiletoggle && 
-        <div>
-            <h4>{prf[0].firstname} {prf[0].lastname}</h4>
-            <h4>{prf[0].bio}</h4>
-            <h4>{prf[0].skill}</h4>
-            <h4>{prf[0].college}</h4>
-            <h4>{prf[0].experience_projects}</h4>
-            <h4>{prf[0].bio}</h4>
+          {/* Projects & Experience */}
+          <div>
+            <h4 className="text-sm font-medium text-rose-600">Projects & Experience</h4>
+            <p className="text-gray-700">{profile.experience_projects}</p>
+          </div>
         </div>
-    }
-
-    <button onClick={profileToggleHandler}>View your profile!!</button>
-
-    </>
+      )}
+    </div>
+  );
 }
 
-export default ProfileView
+export default ProfileView;
