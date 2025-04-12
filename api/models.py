@@ -32,6 +32,6 @@ class Profile(models.Model):
 class JoinProject(models.Model):
     note=models.ForeignKey(Note,on_delete=models.CASCADE)
     owner=models.ForeignKey(User,on_delete=models.CASCADE,null=True)
-    text=models.TextField(max_length=300,null=True,blank=True)
+    text=models.TextField(max_length=300,null=True)
     status=models.CharField(max_length=10,default='pending',null=True)
     approval_text=models.TextField(max_length=300,null=True)

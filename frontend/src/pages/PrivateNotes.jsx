@@ -25,10 +25,16 @@ function PrivateNotes() {
       <Header />
 
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6 text-rose-500">Your Notes</h1>
 
         <div className="space-y-6">
-          <NoteForm refreshNote={getNotes} />
+          <div className="bg-white mt-4 p-4 rounded-lg shadow-md border border-gray-200" >
+            <h3 className="text-lg font-semibold text-gray-700 mb-2">
+                Share something you're building or excited about:
+            </h3>
+            <NoteForm refreshNote={getNotes} />
+          </div>
+    
+          <h1 className="text-3xl font-bold mb-6 text-rose-500">Your Notes</h1>
 
           <NoteList notes={notes} refreshNote={getNotes} skill={skill} status={"private"} />
 

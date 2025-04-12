@@ -21,15 +21,21 @@ function OtherProfileView() {
   };
 
   return (
-<div>
-  <h4>First Name: {otherprofile[0]?.firstname}</h4>
-  <h4>Last Name: {otherprofile[0]?.lastname}</h4>
-  <h4>Bio: {otherprofile[0]?.bio}</h4>
-  <h4>Skill: {otherprofile[0]?.skill}</h4>
-  <h4>College: {otherprofile[0]?.college}</h4>
-  <h4>Experience / Projects: {otherprofile[0]?.experience_projects}</h4>
-</div>
-
+    <div className="flex justify-center items-center min-h-screen bg-rose-50">
+      <div className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-lg">
+        <h2 className="text-2xl font-semibold text-rose-700 mb-4 text-center">
+           User Profile
+        </h2>
+        <div className="space-y-3 text-rose-900">
+          <p><span className="font-medium">First Name:</span> {otherprofile[0]?.firstname}</p>
+          <p><span className="font-medium">Last Name:</span> {otherprofile[0]?.lastname}</p>
+          <p><span className="font-medium">Bio:</span> {otherprofile[0]?.bio}</p>
+          <p><span className="font-medium">Skill:</span> {otherprofile[0]?.skill}</p>
+          <p><span className="font-medium">College:</span> {otherprofile[0]?.college}</p>
+          <p><span className="font-medium">Experience / Projects:</span> {otherprofile[0]?.experience_projects}</p>
+        </div>
+      </div>
+    </div>
   );
 }
 

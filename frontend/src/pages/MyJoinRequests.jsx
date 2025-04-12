@@ -5,7 +5,7 @@ import Header from "../components/Header";
 
 function MyJoinRequests() {
   const [myjoinrequests, setMyjoinrequests] = useState([]);
-  const [status, setStatus] = useState("Pending");
+  const [status, setStatus] = useState("pending");
 
   useEffect(() => {
     viewRequests();
@@ -45,7 +45,7 @@ function MyJoinRequests() {
             value={status}
             className="w-full sm:w-1/2 border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-rose-500 focus:border-rose-500"
           >
-            <option value="Pending">Pending</option>
+            <option value="pending">Pending</option>
             <option value="approved">Approved</option>
             <option value="rejected">Rejected</option>
           </select>
@@ -71,12 +71,14 @@ function MyJoinRequests() {
                   <span
                     className={`px-2 py-1 rounded-md text-white text-xs font-semibold ${
                       req.status === "approved"
-                        ? "bg-green-500"
-                        : req.status === "rejected"
-                        ? "bg-red-500"
-                        : "bg-yellow-500"
+                        ? "bg-yellow-200"
+                        : req.status === "rejected"           
+                        ? 'bg-red-600'
+                        : "bg-yellow-600"
                     }`}
                   >
+
+                    
                     {req.status.toUpperCase()}
                   </span>
                 </p>
@@ -87,6 +89,9 @@ function MyJoinRequests() {
             ))}
           </div>
         )}
+      <h5 className="text-sm text-gray-500 mt-4">
+        Here you can see you project join requests, do visit once a while to know if maker has accepted/rejected your join request.
+      </h5>
       </div>
     </div>
   );

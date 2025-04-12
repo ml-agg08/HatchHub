@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { use, useState } from "react";
 import api from "../api";
 
 function ViewSingleNote({ id }) {
   const [singlenote, setSinglenote] = useState([]);
+
+  const [togglesinglenote,setTogglesinglenote]=useState(false);
 
   const singleNote = (id) => {
     api
@@ -17,13 +19,24 @@ function ViewSingleNote({ id }) {
       });
   };
 
+  const singlenotehandle=()=>{
+    if(togglesinglenote==false){
+      singleNote(id);
+      setTogglesinglenote(true);
+    }
+    else{
+      setSinglenote([]);
+      setTogglesinglenote(false);
+    }
+  }
+
   return (
     <div className="mt-4">
       <button
-        onClick={() => singleNote(id)}
+        onClick={singlenotehandle}
         className="px-4 py-2 bg-rose-500 text-white rounded-md hover:bg-rose-600 transition-all duration-200 shadow-sm"
       >
-       View Note
+       {togglesinglenote?'Close Note':'View Note'}
       </button>
 
       {singlenote.length > 0 && (

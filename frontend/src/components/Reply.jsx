@@ -1,7 +1,19 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Reply({ id, refreshNote, replies }) {
+function Reply({ id, refreshNote, replies, setReplies, replytoggle, setReplytoggle }) {
   const navigate = useNavigate();
+
+  const replytogglehandler=()=>{
+    if (replytoggle==false){
+      setReplytoggle(true);
+      refreshNote(id);
+    }
+    else{
+      setReplytoggle(false);
+      setReplies([]);
+    }
+  }
 
   return (
     <div className="mt-6 space-y-4">
@@ -22,10 +34,10 @@ function Reply({ id, refreshNote, replies }) {
 
       <div className="mt-4">
         <button
-          onClick={() => refreshNote(id)}
+          onClick={replytogglehandler}
           className="bg-rose-400 text-white px-4 py-2 rounded-md hover:bg-rose-500 transition duration-200"
         >
-          See Replies
+          {replytoggle==false?'Show Replies':"Hide Replies"}
         </button>
       </div>
     </div>

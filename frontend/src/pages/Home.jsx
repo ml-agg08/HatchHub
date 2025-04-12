@@ -100,7 +100,7 @@ function Home() {
           {/* Styled NoteForm Section */}
           <div className="bg-white p-4 rounded-lg shadow-md border border-gray-200">
             <h3 className="text-lg font-semibold text-gray-700 mb-2">
-              ✨ Share something you're building or excited about:
+              Share something you're building or excited about:
             </h3>
             <NoteForm refreshNote={refreshNote} skill={selectedskill} />
           </div>

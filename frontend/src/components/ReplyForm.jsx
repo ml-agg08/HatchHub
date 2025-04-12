@@ -1,15 +1,22 @@
 import { useState } from "react";
 import api from "../api";
 
-function ReplyForm({ note, refreshNote }) {
+function ReplyForm({ note, refreshNote, setReplytoggle }) {
   const [contentReply, setContentReply] = useState("");
+  const [showmessage,setShowmessage]=useState(false);
 
   const createReply = (id) => {
     api
       .post(`api/notes/${id}/replies/`, { content: contentReply })
       .then(() => {
+        setReplytoggle(true)
         refreshNote(id);
-        setContentReply(""); // reset field
+        setContentReply(""); 
+        setShowmessage(true);
+
+        setTimeout(() => {
+          setShowmessage(false);
+        }, 2500);
       })
       .catch((err) => {
         alert(err);
@@ -50,6 +57,8 @@ function ReplyForm({ note, refreshNote }) {
           Add Reply
         </button>
       </form>
+      {showmessage==true?
+      <h6 className="mt-3 p-2 bg-rose-100 text-rose-700 rounded-md text-sm font-medium shadow-sm transition-opacity duration-300">"Your reply has been posted"</h6>:null}
     </div>
   );
 }

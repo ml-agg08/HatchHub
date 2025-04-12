@@ -4,12 +4,28 @@ import ApprovalForm from "./ApprovalForm";
 import { useNavigate } from "react-router-dom";
 
 function JoinRequests({ note, status }) {
+
+  const [showjoinrequestlist,setShowjoinrequestlist]=useState(false);
+
+  const [showapprovalformmessage,setShowapprovalformmessage]=useState(false);
+
+  const [requestevaluated,setRequestevaluated]=useState(false);
+
+  const [showjoinrequestmessage,setShowjoinrequestmessage]=useState(false)
+
   const [text, setText] = useState("");
   const [joinrequests, setJoinrequests] = useState([]);
   const navigate = useNavigate();
 
   const ApplyJoin = (id) => {
-    api.post(`api/notes/${id}/joinproject/`, { text: text }).catch((err) => {
+    api.post(`api/notes/${id}/joinproject/`, { text: text }).then(()=>{
+      setText('');
+      setShowjoinrequestmessage(true);
+
+      setTimeout(() => {
+        setShowjoinrequestmessage(false);
+      },2500);
+    }).catch((err) => {
       alert(err);
     });
   };
@@ -25,18 +41,30 @@ function JoinRequests({ note, status }) {
       });
   };
 
+  const  joinrequestlisthandle=()=>{
+    if(showjoinrequestlist==false){
+      ListJoin(note.id);
+      setShowjoinrequestlist(true);
+    }
+    else{
+      setJoinrequests([]);
+      setShowjoinrequestlist(false);
+    }
+  }
+
   return (
     <div className="bg-gray-50 p-4 rounded-xl border border-gray-200">
       {status === "private" ? (
         <div>
           <button
-            onClick={() => ListJoin(note.id)}
+            onClick={joinrequestlisthandle}
             className="bg-rose-400 text-white px-4 py-2 rounded hover:bg-rose-500 mb-4"
           >
-            See Join Requests
+            {showjoinrequestlist?"Close Join Requests":"See Join Requests"}
           </button>
 
           {joinrequests.map((joinrequest) => (
+            
             <div
               key={joinrequest.id}
               className="mb-4 p-4 border border-gray-300 rounded-lg bg-white shadow-sm"
@@ -68,13 +96,14 @@ function JoinRequests({ note, status }) {
 
               <p className="text-gray-700 mb-2">"{joinrequest.text}"</p>
 
-              {joinrequest.status === "Pending" && (
-                <ApprovalForm approval_id={joinrequest.id} />
+              {joinrequest.status === "pending" && (
+                <ApprovalForm approval_id={joinrequest.id} ListJoin={ListJoin} id={note.id} setShowapprovalformmessage={setShowapprovalformmessage} />
               )}
             </div>
           ))}
         </div>
       ) : (
+        <div>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -87,7 +116,7 @@ function JoinRequests({ note, status }) {
           </label>
           <input
             type="text"
-            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400"
+            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400" value={text}
             onChange={(e) => setText(e.target.value)}
           />
           <button
@@ -97,7 +126,10 @@ function JoinRequests({ note, status }) {
             Join the project
           </button>
         </form>
+        {showjoinrequestmessage?<h6 className="mt-3 p-2 bg-rose-100 text-rose-700 rounded-md text-sm font-medium shadow-sm transition-opacity duration-300">Join request added successfully</h6>:null}
+        </div>
       )}
+      {showapprovalformmessage?<h6 className="mt-3 p-2 bg-rose-100 text-rose-700 rounded-md text-sm font-medium shadow-sm transition-opacity duration-300">Approval status has been updated.</h6>:null}
     </div>
   );
 }

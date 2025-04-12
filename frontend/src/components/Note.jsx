@@ -7,6 +7,9 @@ import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 function Note({ note, refreshNote, skill, status }) {
+
+    const [replytoggle,setReplytoggle]=useState(false);
+
     const navigate = useNavigate();
     const [replies, setReplies] = useState([]);
   
@@ -58,11 +61,11 @@ function Note({ note, refreshNote, skill, status }) {
         </div>
   
         <div className="mt-6">
-          <ReplyForm note={note} refreshNote={getReplies} />
+          <ReplyForm note={note} refreshNote={getReplies} setReplytoggle={setReplytoggle} />
         </div>
   
         <div className="mt-4">
-          <Reply id={note.id} refreshNote={getReplies} replies={replies} />
+          <Reply id={note.id} refreshNote={getReplies} replies={replies} setReplies={setReplies} replytoggle={replytoggle} setReplytoggle={setReplytoggle}/>
         </div>
       </div>
     );

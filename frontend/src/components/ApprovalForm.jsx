@@ -1,7 +1,8 @@
 import { useState } from "react";
 import api from "../api";
 
-function ApprovalForm({ approval_id }) {
+function ApprovalForm({ approval_id, ListJoin, id, setShowapprovalformmessage }) {
+
   const [approval, setApproval] = useState({
     approval_text: "",
     status: "",
@@ -17,7 +18,15 @@ function ApprovalForm({ approval_id }) {
   const updateApproval = (approval_id) => {
     api
       .put(`/api/notes/${approval_id}/approvalproject/`, approval)
-      .catch((err) => {
+      .then(()=>
+        {ListJoin(id);}
+      ).then(()=>{
+        setShowapprovalformmessage(true);
+
+        setTimeout(() => {
+          setShowapprovalformmessage(false);
+        }, 2500);
+      }).catch((err) => {
         alert(err);
       });
   };
