@@ -22,7 +22,7 @@ function PublicSkillView({
 
   const GetSkills = () => {
     api
-      .get("/api/getskills/")
+      .get("/api/skills/")
       .then((res) => res.data)
       .then((data) => setSkills(data))
       .catch((err) => {
@@ -30,25 +30,47 @@ function PublicSkillView({
       });
   };
 
-  return (
-    <div className="flex flex-col space-y-3 w-1/4 my-4">
-      <select
-        onChange={(e) => setSelectedskill(e.target.value)}
-        className="px-4 py-2 border border-rose-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-400 bg-white text-gray-800 transition-all"
-      >
-        <option value=""> Select a skill</option>
-        {skills.map((skill, index) => (
-          <option key={index} value={skill.tag}>
-            {skill.tag}
-          </option>
-        ))}
-      </select>
+  const ToggleSelectedSkill = (id) => {
+    setSelectedskill((prev) =>
+      prev.includes(id) ? prev.filter((sid) => id != sid) : [...prev, id]
+    );
+  };
 
-      {selectedskill && (
-        <p className="text-sm text-rose-600 font-medium">
-          You've selected: <span className="font-semibold">{selectedskill}</span>
-        </p>
-      )}
+  useEffect(() => {
+    console.log(selectedskill);
+  }, [selectedskill]);
+
+  return (
+    <div className="flex flex-col">
+      <div>
+      <h4 className="mb-2 text-rose-600 font-semibold text-sm tracking-wide uppercase">
+        Choose the skills you are looking for:
+      </h4>
+      </div>
+      <div className="flex flex-wrap gap-2 mt-2">
+      {skills.map((skill) => {
+        const isSelected = selectedskill.includes(skill.id);
+        return (
+          <label
+            key={skill.id}
+            className={`cursor-pointer px-4 py-1 rounded-full border text-sm font-medium shadow-sm transition
+          ${
+            isSelected
+              ? "bg-rose-400 text-white border-rose-500"
+              : "bg-rose-100 text-rose-600 border-rose-200 hover:bg-rose-200"
+          }`}
+          >
+            <input
+              type="checkbox"
+              checked={isSelected}
+              onChange={() => ToggleSelectedSkill(skill.id)}
+              className="hidden"
+            />
+            {skill.skillname}
+          </label>
+        );
+      })}
+      </div>
     </div>
   );
 }

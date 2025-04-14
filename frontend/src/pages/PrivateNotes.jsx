@@ -23,7 +23,6 @@ function PrivateNotes() {
   return (
     <div className="min-h-screen bg-white text-gray-800 px-4 sm:px-6 lg:px-8 py-6">
       <Header />
-
       <div className="max-w-3xl mx-auto">
 
         <div className="space-y-6">

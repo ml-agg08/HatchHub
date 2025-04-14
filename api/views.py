@@ -2,8 +2,9 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated,AllowAny
-from . serializers import UserSerializer,JoinProjectSerializer,NoteSerializer,ReplySerializer,ProfileSerializer,HasProfileSerializer,ApproveProjectSerializer,ViewProjectRequestSerializer,SkillSerializer,ListUserSkillSerializer
-from . models import Note,Reply,Profile,JoinProject
+from . serializers import UserSerializer,JoinProjectSerializer,NoteSerializer,ReplySerializer,ProfileSerializer,HasProfileSerializer,ApproveProjectSerializer,ViewProjectRequestSerializer,SkillSerializer,ListUserSkillSerializer,AllSkillSerializer
+from . models import Note,Reply,Profile,JoinProject,Skill
+from django.db.models import Q
 # Create your views here.
 
 
@@ -99,20 +100,20 @@ class ListNotes(generics.ListAPIView):
     def get_queryset(self):
         return Note.objects.all().exclude(author=self.request.user)
     
+
+
+
+
 class ListNotesBySkill(generics.ListAPIView):
     serializer_class=NoteSerializer
     permission_classes=[IsAuthenticated]
 
     def get_queryset(self):
-        skill=self.kwargs['skill']
-        return Note.objects.filter(tag=skill).exclude(author=self.request.user)
+        skills=self.request.query_params.getlist('skill')
+        print('hi',skills)
         
-class ListSkills(generics.ListAPIView):
-    serializer_class=SkillSerializer
-    permission_classes=[IsAuthenticated]
+        return Note.objects.filter(tag__id__in=skills).exclude(author=self.request.user).distinct()
 
-    def get_queryset(self):
-        return Note.objects.values('tag').distinct()
 
 class JoinProjectListCreate(generics.ListCreateAPIView):
     serializer_class=JoinProjectSerializer
@@ -174,5 +175,14 @@ class ListUserSkill(generics.ListAPIView):
 
     def get_queryset(self):
         profile=Profile.objects.get(owner=self.request.user)
-        return [{'skill':profile.skill}]
+        return profile.skill.all()
+
+class ListSkillsAll(generics.ListAPIView):
+    serializer_class=AllSkillSerializer
+    permission_classes=[IsAuthenticated]
+
+    def get_queryset(self):
+        return Skill.objects.all()
+    
+
 

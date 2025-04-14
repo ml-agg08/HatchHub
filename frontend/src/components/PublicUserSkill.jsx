@@ -16,7 +16,10 @@ function PublicUserSkill({ selectedskill, notes, setNotes, setSelectedskill, get
     api
       .get("/api/getuserskill/")
       .then((res) => res.data)
-      .then((data) => setSelectedskill(data[0].skill))
+      .then((data) =>{
+        const skillIds=data.map((item)=>item.id);
+        setSelectedskill(skillIds);
+      })
       .catch((err) => {
         alert(err);
       });

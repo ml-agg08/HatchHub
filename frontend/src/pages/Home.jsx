@@ -10,7 +10,7 @@ import Header from "../components/Header";
 function Home() {
   const [notes, setNotes] = useState([]);
   const [skills, setSkills] = useState([]);
-  const [selectedskill, setSelectedskill] = useState("");
+  const [selectedskill, setSelectedskill] = useState([]);
   const [publicmode, setPublicmode] = useState("publicall");
 
   useEffect(() => {
@@ -27,16 +27,20 @@ function Home() {
     api
       .get("/api/notes/public")
       .then((res) => res.data)
-      .then((data) => setNotes(data))
+      .then((data) => {setNotes(data);console.log(notes)})
       .catch((err) => alert(err));
   };
 
   const getNotesBySkill = (selectedskill) => {
-    api
-      .get(`/api/notes/public/${selectedskill}`)
-      .then((res) => res.data)
-      .then((data) => setNotes(data))
-      .catch((err) => alert(err));
+
+    const params=new URLSearchParams();
+    selectedskill.forEach((skill)=>params.append('skill',skill));
+
+      api
+        .get(`/api/notes/publicskill/?${params.toString()}`)
+        .then((res) => res.data)
+        .then((data) => setNotes(data))
+        .catch((err) => alert(err));
   };
 
   let refreshNote =
@@ -126,8 +130,8 @@ function Home() {
 
           {/* Footer Info */}
           <h5 className="text-sm text-gray-500 mt-4">
-            Here you can read other makers' project ideas, reply to them, give
-            opinions, and if you're interested, you may request to join the project.
+            This is where you can see all the notes put by other makers, read them, make your thoughts and even send a join request to make with them.
+            
           </h5>
         </div>
       </div>

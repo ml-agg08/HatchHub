@@ -2,10 +2,17 @@ from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
 
+
+class Skill(models.Model):
+    skillname=models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.skillname
+
 class Note(models.Model):
     title=models.CharField(max_length=50)
     content=models.TextField(max_length=300)
-    tag=models.CharField(max_length=30,null=True)
+    tag=models.ManyToManyField(Skill)
     created_at=models.DateTimeField(auto_now_add=True)
     author=models.ForeignKey(User,on_delete=models.CASCADE,related_name="notes")
 
@@ -20,12 +27,13 @@ class Reply(models.Model):
     def __str__(self):
         return self.content
     
+
 class Profile(models.Model):
     firstname=models.CharField(max_length=50)
     lastname=models.CharField(max_length=50)
     bio=models.TextField(max_length=60)
     college=models.CharField(max_length=50)
-    skill=models.CharField(max_length=20)   #update later
+    skill=models.ManyToManyField(Skill)
     experience_projects=models.TextField(max_length=300)  #update later
     owner=models.OneToOneField(User,on_delete=models.CASCADE,related_name="profile")
 
