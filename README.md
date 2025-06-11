@@ -1,71 +1,69 @@
-HatchHub – Matchmaking for Makers
-HatchHub is a fully functional platform that helps students connect, collaborate, and create. Built with campus makers in mind, it simplifies how students share project ideas, find teammates with the right skills, and join hands-on initiatives.
+# HatchHub – Matchmaking for Makers
 
-It’s a space that encourages a learning culture on campus — one that connects, inspires, and engages students through practical, interdisciplinary collaboration. HatchHub is made to empower students to be makers.
+**HatchHub** is a fully functional platform that helps students **connect, collaborate, and create**. Built with campus makers in mind, it simplifies how students share project ideas, find teammates with the right skills, and join hands-on initiatives.
 
-Features
-Public View
-Post Feed: Displays all public posts (excluding the user's private ones).
+It’s a space that encourages a learning culture on campus — one that **connects, inspires, and engages** students through practical, interdisciplinary collaboration. HatchHub is made to **empower students to be makers**.
 
-Skill Filters:
+---
 
-Filter posts relevant to your profile's skills.
+## Features
 
-Sort by any skill to discover targeted opportunities.
+### Public View
 
-Post Info:
+- **Post Feed**: Displays all public posts (excluding the user's private ones).
+- **Skill Filters**:
+  - Filter posts relevant to your profile's skills.
+  - Sort by any skill to discover targeted opportunities.
+- **Post Info**:
+  - Each post shows title, body, and the poster’s name.
+  - Clicking the name redirects to their profile.
+- **UI Controls**:
+  - All feature buttons like “See Replies” have on/off toggle behavior.
+  - No delete button shown in public view.
+- **Replies**:
+  - Each reply includes content and the replier’s profile link.
 
-Each post shows title, body, and the poster’s name.
+---
 
-Click on the name to view their profile.
+### Private View
 
-UI Controls:
+- **Join Requests**:
+  - Displays all incoming requests for your posts with requester names and profile links.
+  - Sort and filter by status: Approved, Rejected, Pending.
+  - Once approved, the request is locked, and a confirmation message is shown.
+- **Replies to Your Posts**:
+  - Each reply shows content and the replier’s profile name and link.
 
-All feature buttons like “See Replies” have on/off toggles.
+---
 
-Delete button is not shown in public view.
+### My Join Requests
 
-Replies:
+- View all join requests you’ve sent.
+- Clicking the “Note” button displays:
+  - The post’s title and content.
+  - The creator’s name and profile link.
 
-Each reply includes content and the replier’s profile link.
+---
 
-Private View
-Join Requests:
+### Profile
 
-Displays all incoming requests for your posts with requester names and profile links.
+- Every user has a profile showing their name, status, and skills.
+- A button inside the profile redirects to the profile update form.
 
-Filter by status: Approved, Rejected, or Pending.
+---
 
-Once approved, editing is disabled and a confirmation message is shown.
+## Tech Stack
 
-Replies to Your Posts:
+- **Frontend**: React + Vite  
+- **Backend**: Django  
+- **Database**: SQLite (planned upgrade to PostgreSQL)  
+- **Authentication**: JWT
 
-Replies also show the name and profile of the responder.
+---
 
-My Join Requests
-View all requests you’ve sent.
+## Status
 
-Click the “note” button to see:
+All features mentioned above are **fully implemented and tested**.
 
-The post’s title and content.
-
-Creator’s name with link to their profile.
-
-Profile
-Each user has a profile displaying their name and skills.
-
-From the profile page, a button lets users open the update form directly.
-
-Tech Stack
-
-Frontend: React + Vite
-
-Backend: Django
-
-Database: SQL3 (will later change it to postgresql)
-
-Authentication: JWT
-
-📌 Note
-All features mentioned above are already implemented and tested.
+---
 
