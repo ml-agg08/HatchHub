@@ -6,6 +6,21 @@ It’s a space that encourages a learning culture on campus — one that **conne
 
 ---
 
+## Screenshots
+
+<img src="https://github.com/ml-agg08/HatchHub/raw/main/Screenshot%202025-06-11%20084122.png" width="700"/>
+
+<img src="https://github.com/ml-agg08/HatchHub/raw/main/Screenshot%202025-06-11%20084135.png" width="700"/>
+
+<img src="https://github.com/ml-agg08/HatchHub/raw/main/Screenshot%202025-06-11%20084200.png" width="700"/>
+
+<img src="https://github.com/ml-agg08/HatchHub/raw/main/Screenshot%202025-06-11%20084211.png" width="700"/>
+
+<img src="https://github.com/ml-agg08/HatchHub/raw/main/Screenshot%202025-06-11%20084224.png" width="700"/>
+
+<img src="https://github.com/ml-agg08/HatchHub/raw/main/Screenshot%202025-06-11%20084232.png" width="700"/>
+
+
 ## Features
 
 ### Public View
